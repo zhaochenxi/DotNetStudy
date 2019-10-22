@@ -1,0 +1,137 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<wsdl:definitions xmlns:wsap="http://schemas.xmlsoap.org/ws/2004/08/addressing/policy" xmlns:wsa10="http://www.w3.org/2005/08/addressing" xmlns:tns="http://tempuri.org/" xmlns:msc="http://schemas.microsoft.com/ws/2005/12/wsdl/contract" xmlns:soapenc="http://schemas.xmlsoap.org/soap/encoding/" xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/" xmlns:wsp="http://schemas.xmlsoap.org/ws/2004/09/policy" xmlns:wsam="http://www.w3.org/2007/05/addressing/metadata" xmlns:wsa="http://schemas.xmlsoap.org/ws/2004/08/addressing" xmlns:wsaw="http://www.w3.org/2006/05/addressing/wsdl" xmlns:soap12="http://schemas.xmlsoap.org/wsdl/soap12/" xmlns:wsu="http://docs.oasis-open.org/wss/2004/01/oasis-200401-wss-wssecurity-utility-1.0.xsd" xmlns:xsd="http://www.w3.org/2001/XMLSchema" name="FileService" targetNamespace="http://tempuri.org/" xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">
+  <wsp:Policy wsu:Id="NetTcpBinding_IFileService_policy">
+    <wsp:ExactlyOne>
+      <wsp:All>
+        <msb:BinaryEncoding xmlns:msb="http://schemas.microsoft.com/ws/06/2004/mspolicy/netbinary1" />
+        <msf:Streamed xmlns:msf="http://schemas.microsoft.com/ws/2006/05/framing/policy" />
+        <wsaw:UsingAddressing />
+      </wsp:All>
+    </wsp:ExactlyOne>
+  </wsp:Policy>
+  <wsdl:types>
+    <xsd:schema targetNamespace="http://tempuri.org/Imports">
+      <xsd:import namespace="http://tempuri.org/" />
+      <xsd:import namespace="http://schemas.microsoft.com/Message" />
+      <xsd:import namespace="http://schemas.microsoft.com/2003/10/Serialization/" />
+      <xsd:import namespace="http://schemas.datacontract.org/2004/07/FileService" />
+    </xsd:schema>
+  </wsdl:types>
+  <wsdl:message name="UpFile">
+    <wsdl:part name="parameters" element="tns:UpFile" />
+  </wsdl:message>
+  <wsdl:message name="UpFile_Headers">
+    <wsdl:part name="FileName" element="tns:FileName" />
+    <wsdl:part name="FileSize" element="tns:FileSize" />
+  </wsdl:message>
+  <wsdl:message name="UpFileResult">
+    <wsdl:part name="parameters" element="tns:UpFileResult" />
+  </wsdl:message>
+  <wsdl:message name="UpFileResult_Headers">
+    <wsdl:part name="IsSuccess" element="tns:IsSuccess" />
+    <wsdl:part name="Message" element="tns:Message" />
+  </wsdl:message>
+  <wsdl:message name="DownFile">
+    <wsdl:part name="parameters" element="tns:DownFile" />
+  </wsdl:message>
+  <wsdl:message name="DownFile_Headers">
+    <wsdl:part name="FileName" element="tns:FileName" />
+  </wsdl:message>
+  <wsdl:message name="DownFileResult">
+    <wsdl:part name="parameters" element="tns:DownFileResult" />
+  </wsdl:message>
+  <wsdl:message name="DownFileResult_Headers">
+    <wsdl:part name="FileSize" element="tns:FileSize" />
+    <wsdl:part name="IsSuccess" element="tns:IsSuccess" />
+    <wsdl:part name="Message" element="tns:Message" />
+  </wsdl:message>
+  <wsdl:message name="IFileService_GetData_InputMessage">
+    <wsdl:part name="parameters" element="tns:GetData" />
+  </wsdl:message>
+  <wsdl:message name="IFileService_GetData_OutputMessage">
+    <wsdl:part name="parameters" element="tns:GetDataResponse" />
+  </wsdl:message>
+  <wsdl:message name="IFileService_GetDataUsingDataContract_InputMessage">
+    <wsdl:part name="parameters" element="tns:GetDataUsingDataContract" />
+  </wsdl:message>
+  <wsdl:message name="IFileService_GetDataUsingDataContract_OutputMessage">
+    <wsdl:part name="parameters" element="tns:GetDataUsingDataContractResponse" />
+  </wsdl:message>
+  <wsdl:portType name="IFileService">
+    <wsdl:operation name="UpLoadFile">
+      <wsdl:input wsaw:Action="http://tempuri.org/IFileService/UpLoadFile" name="UpFile" message="tns:UpFile" />
+      <wsdl:output wsaw:Action="http://tempuri.org/IFileService/UpLoadFileResponse" name="UpFileResult" message="tns:UpFileResult" />
+    </wsdl:operation>
+    <wsdl:operation name="DownLoadFile">
+      <wsdl:input wsaw:Action="http://tempuri.org/IFileService/DownLoadFile" name="DownFile" message="tns:DownFile" />
+      <wsdl:output wsaw:Action="http://tempuri.org/IFileService/DownLoadFileResponse" name="DownFileResult" message="tns:DownFileResult" />
+    </wsdl:operation>
+    <wsdl:operation name="GetData">
+      <wsdl:input wsaw:Action="http://tempuri.org/IFileService/GetData" message="tns:IFileService_GetData_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/IFileService/GetDataResponse" message="tns:IFileService_GetData_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="GetDataUsingDataContract">
+      <wsdl:input wsaw:Action="http://tempuri.org/IFileService/GetDataUsingDataContract" message="tns:IFileService_GetDataUsingDataContract_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/IFileService/GetDataUsingDataContractResponse" message="tns:IFileService_GetDataUsingDataContract_OutputMessage" />
+    </wsdl:operation>
+  </wsdl:portType>
+  <wsdl:binding name="NetTcpBinding_IFileService" type="tns:IFileService">
+    <wsp:PolicyReference URI="#NetTcpBinding_IFileService_policy" />
+    <soap12:binding transport="http://schemas.microsoft.com/soap/tcp" />
+    <wsdl:operation name="UpLoadFile">
+      <soap12:operation soapAction="http://tempuri.org/IFileService/UpLoadFile" style="document" />
+      <wsdl:input name="UpFile">
+        <soap12:header message="tns:UpFile_Headers" part="FileName" use="literal" />
+        <soap12:header message="tns:UpFile_Headers" part="FileSize" use="literal" />
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output name="UpFileResult">
+        <soap12:header message="tns:UpFileResult_Headers" part="IsSuccess" use="literal" />
+        <soap12:header message="tns:UpFileResult_Headers" part="Message" use="literal" />
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="DownLoadFile">
+      <soap12:operation soapAction="http://tempuri.org/IFileService/DownLoadFile" style="document" />
+      <wsdl:input name="DownFile">
+        <soap12:header message="tns:DownFile_Headers" part="FileName" use="literal" />
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output name="DownFileResult">
+        <soap12:header message="tns:DownFileResult_Headers" part="FileSize" use="literal" />
+        <soap12:header message="tns:DownFileResult_Headers" part="IsSuccess" use="literal" />
+        <soap12:header message="tns:DownFileResult_Headers" part="Message" use="literal" />
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetData">
+      <soap12:operation soapAction="http://tempuri.org/IFileService/GetData" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetDataUsingDataContract">
+      <soap12:operation soapAction="http://tempuri.org/IFileService/GetDataUsingDataContract" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+  </wsdl:binding>
+  <wsdl:service name="FileService">
+    <wsdl:port name="NetTcpBinding_IFileService" binding="tns:NetTcpBinding_IFileService">
+      <soap12:address location="net.tcp://localhost:8801/Design_Time_Addresses/FileService/Service1/" />
+      <wsa10:EndpointReference>
+        <wsa10:Address>net.tcp://localhost:8801/Design_Time_Addresses/FileService/Service1/</wsa10:Address>
+        <Identity xmlns="http://schemas.xmlsoap.org/ws/2006/02/addressingidentity">
+          <Dns>localhost</Dns>
+        </Identity>
+      </wsa10:EndpointReference>
+    </wsdl:port>
+  </wsdl:service>
+</wsdl:definitions>
